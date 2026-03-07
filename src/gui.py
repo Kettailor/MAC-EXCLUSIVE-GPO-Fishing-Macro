@@ -1326,7 +1326,7 @@ Sequence (per user spec):
             runtime_text = f'⏱️ Runtime: {hours:02d}:{minutes:02d}:{seconds:02d}'
             
             try:
-                self.root.after(0, lambda: self.runtime_label.config(text=runtime_text))
+                self.root.after(0, lambda: self._update_runtime_label_text(runtime_text))
             except Exception:
                 pass
         
@@ -1335,6 +1335,18 @@ Sequence (per user spec):
             self.root.after(1000, self.update_runtime_timer)
 
 
+
+
+    def _update_runtime_label_text(self, runtime_text):
+        """Safely update runtime label text even if UI is not fully initialized yet."""
+        label = getattr(self, 'runtime_label', None)
+        if label is None:
+            return
+        try:
+            if label.winfo_exists():
+                label.config(text=runtime_text)
+        except Exception:
+            pass
 
 
     def exit_app(self):
