@@ -1146,7 +1146,7 @@ class FishingBot:
                                 for row_idx in range(real_height):
                                     hits = 0
                                     for col_idx in range(real_width):
-                                        r, g, b = real_img[row_idx, col_idx, 0:3]
+                                        b, g, r = real_img[row_idx, col_idx, 0:3]
                                         if self._is_indicator_pixel((r, g, b)):
                                             hits += 1
                                     if hits >= min_row_hits:
@@ -1170,7 +1170,7 @@ class FishingBot:
                                 for row_idx in range(real_height):
                                     has_dark = False
                                     for col_idx in range(real_width):
-                                        r, g, b = real_img[row_idx, col_idx, 0:3]
+                                        b, g, r = real_img[row_idx, col_idx, 0:3]
                                         if self._is_dark_pixel((r, g, b)):
                                             has_dark = True
                                             break
@@ -1198,6 +1198,7 @@ class FishingBot:
 
                                 # PD control once signals present
                                 if dark_sections and white_top_y is not None:
+                                    detected = True
                                     if first_detection_time is None:
                                         first_detection_time = time.time()
                                     stable_frames += 1
@@ -1311,7 +1312,7 @@ class FishingBot:
                                         print(f"⚠️ Bar detect miss: dark_sections={len(dark_sections)}, white_top_y={white_top_y}, sample_pixel={sample_pix}, area=({real_width}x{real_height})")
                                     if first_detection_time is None:
                                         first_detection_time = time.time()
-                                    stable_frames += 1
+                                    stable_frames = 0
 
                                     if self.app.is_clicking:
                                         try:

@@ -29,8 +29,8 @@ try:
     OCR_AVAILABLE = True
     OCR_ENGINE = "easy"
     print("✅ EasyOCR loaded successfully - text recognition available!")
-except ImportError as e:
-    print(f"🔍 EasyOCR import failed: {e}")
+except Exception as e:
+    print(f"🔍 EasyOCR unavailable: {e}")
     try:
         # Fallback to PaddleOCR
         import paddleocr
@@ -38,8 +38,8 @@ except ImportError as e:
         OCR_AVAILABLE = True
         OCR_ENGINE = "paddle"
         print("✅ PaddleOCR loaded successfully - lightweight text recognition!")
-    except ImportError as e2:
-        print(f"🔍 PaddleOCR import failed: {e2}")
+    except Exception as e2:
+        print(f"🔍 PaddleOCR unavailable: {e2}")
         OCR_AVAILABLE = False
         OCR_ENGINE = None
         # Create dummy classes for type hints when OCR not available
